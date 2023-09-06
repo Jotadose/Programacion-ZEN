@@ -1,0 +1,19 @@
+using Aspose.Cells.Drawing;
+using System;
+public class CalcularSuperficieEsfera
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("Para Calcular La Superficie y Area de una esfera");
+        Console.WriteLine("Ingrese valor del radio :");
+        float radio = Convert.ToSingle(Console.ReadLine());
+        float pi = 3.14159f;
+
+        float Superficie = 4 * pi * (radio * radio);
+        float Area = 4 / 3 * pi * (radio * radio * radio);
+
+        Console.WriteLine("superficie :" + Superficie);
+        Console.WriteLine("area : " + Area);
+    }
+    
+}
