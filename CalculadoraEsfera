@@ -1,19 +1,62 @@
-using Aspose.Cells.Drawing;
 using System;
+using Aspose.Cells;
+
 public class CalcularSuperficieEsfera
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Para Calcular La Superficie y Area de una esfera");
-        Console.WriteLine("Ingrese valor del radio :");
-        float radio = Convert.ToSingle(Console.ReadLine());
-        float pi = 3.14159f;
+        Console.WriteLine("=== Calculadora de Esfera ===");
+        Console.WriteLine("Este programa calcula la superficie y el volumen de una esfera.");
+        
+        float radio = 0f;
+        while (true)
+        {
+            Console.Write("Ingrese el valor del radio (número positivo): ");
+            string input = Console.ReadLine();
+            
+            if (float.TryParse(input, out radio) && radio > 0)
+                break;
+            else
+                Console.WriteLine("Entrada inválida. Por favor, ingrese un número positivo.");
+        }
 
-        float Superficie = 4 * pi * (radio * radio);
-        float Area = 4 / 3 * pi * (radio * radio * radio);
+        float pi = MathF.PI;
+        float superficie = 4 * pi * (radio * radio);
+        float volumen = (4f / 3f) * pi * (radio * radio * radio);
 
-        Console.WriteLine("superficie :" + Superficie);
-        Console.WriteLine("area : " + Area);
+        Console.WriteLine($"\nSuperficie: {superficie:F2}");
+        Console.WriteLine($"Volumen: {volumen:F2}");
+
+        // Crear y guardar archivo Excel
+        GuardarEnExcel(radio, superficie, volumen);
+
+        Console.WriteLine("\nLos resultados han sido guardados en el archivo 'ResultadosEsfera.xlsx'.");
     }
-    
+
+    /// <summary>
+    /// Crea un archivo Excel con los resultados del cálculo.
+    /// </summary>
+    static void GuardarEnExcel(float radio, float superficie, float volumen)
+    {
+        // Crear un nuevo libro de Excel
+        Workbook workbook = new Workbook();
+        Worksheet hoja = workbook.Worksheets[0];
+
+        hoja.Cells[0, 0].PutValue("Parámetro");
+        hoja.Cells[0, 1].PutValue("Valor");
+
+        hoja.Cells[1, 0].PutValue("Radio");
+        hoja.Cells[1, 1].PutValue(radio);
+
+        hoja.Cells[2, 0].PutValue("Superficie");
+        hoja.Cells[2, 1].PutValue(superficie);
+
+        hoja.Cells[3, 0].PutValue("Volumen");
+        hoja.Cells[3, 1].PutValue(volumen);
+
+        hoja.Name = "Cálculo Esfera";
+
+        // Guardar el archivo
+        workbook.Save("ResultadosEsfera.xlsx");
+    }
 }
